@@ -1,0 +1,264 @@
+import ChipContainer from "@/components/Widgets/SharedWidgets/Containers/ChipContainer";
+import DynamicTitle from "@/components/Widgets/SharedWidgets/Text/DynamicTitle";
+import { oldAuth, oldDB } from "@/components/firebase-config";
+import { newAuth, newDB } from "@/components/firebase-new-config";
+import {
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { createUserWithEmailAndPassword, deleteUser } from "firebase/auth";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+let padding = "4em 0 0 ";
+
+const Approval = () => {
+  const {
+    register,
+    getValues,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      userApprovalForm: {
+        userList: [],
+      },
+    },
+  });
+  const useFormPropObj = {
+    formName: "userApprovalForm",
+    register,
+    getValues,
+    setValue,
+    watch,
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    // @@ REMOVE USER FROM USER APPROVAL LIST !
+  };
+
+  const handleApproveClick = (userData, userInd) => {
+    console.log(userData);
+    handleMenuClose();
+    // @@ CREATE USER USING EMAIL AND PASSWORD !
+    createUserInNewDB(userData);
+    createUserInOldDB(userData);
+    handleDeleteClick(userData.id);
+  };
+
+  const handleDeleteClick = async (uID) => {
+    console.log(uID);
+    try {
+      const userDocRef = doc(newDB, "humans_approval", uID);
+      await deleteDoc(userDocRef);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const createUserInNewDB = async (oldUserData) => {
+    const newDBRef = collection(newDB, "humans");
+    try {
+      let tempResp = await addDoc(newDBRef, {
+        email: oldUserData?.email,
+      });
+      console.log(tempResp);
+    } catch (err) {
+      console.log(err);
+    };
+
+    try {
+      const resp = await createUserWithEmailAndPassword(
+        newAuth,
+        oldUserData?.email,
+        oldUserData?.password
+      );
+      console.log(resp.user);
+    } catch (err) {
+      console.log(err);
+    };
+    
+    // createUserWithEmailAndPassword(
+    //   newAuth,
+    //   oldUserData?.email,
+    //   oldUserData?.password
+    // )
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     const user = userCredential.user;
+    //     console.log(user);
+    //     console.log(userCredential);
+    //   })
+    //   .catch((err) => {
+    //     const errorCode = err.code;
+    //     const errorMessage = err.message;
+    //     console.log(err);
+    //   });
+  };
+  const createUserInOldDB = async (oldUserData) => {
+    const oldDBRef = collection(oldDB, "humans");
+    try {
+      let tempResp = await addDoc(oldDBRef, {
+        email: oldUserData?.email,
+      });
+      console.log(tempResp);
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      const resp = await createUserWithEmailAndPassword(
+        oldAuth,
+        oldUserData?.email,
+        oldUserData?.password
+      );
+      console.log(resp.user);
+    } catch (err) {
+      console.log(err);
+    }
+    // createUserWithEmailAndPassword(
+    //   oldAuth,
+    //   oldUserData?.email,
+    //   oldUserData?.password
+    // )
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     const user = userCredential.user;
+    //     // console.log(user);
+    //     // console.log(userCredential);
+    //   })
+    //   .catch((err) => {
+    //     const errorCode = err.code;
+    //     const errorMessage = err.message;
+    //     console.log(err);
+    //   });
+  };
+  useEffect(() => {
+    console.log(watch());
+    const getUserApprovalList = async () => {
+      const newDBRef = collection(newDB, "humans_approval");
+      const newUserSnapshot = await getDocs(newDBRef);
+      const newUsers = newUserSnapshot.docs.map((doc) => {
+        console.log(doc.id);
+        console.log(doc.data());
+        return {
+          email: doc?.data()?.email,
+          password: doc?.data()?.password,
+          id: doc?.id,
+        };
+      });
+      console.log(newUsers);
+
+      // const filteredList = newUsers?.filter(x => typeof(x.email) !== 'undefined' || x.status !== 'PENDING')
+      const filteredList = newUsers?.filter(
+        (x) => typeof x?.email !== "undefined"
+      );
+      console.log(filteredList);
+
+      setValue("userApprovalForm.userList", filteredList);
+    };
+
+    getUserApprovalList();
+  }, []);
+  return (
+    <Grid
+      container
+      sx={{
+        padding: {
+          sm: `${padding} 6em`,
+          md: `${padding} 5em`,
+          lg: `${padding} 1.2em`,
+          xl: `${padding} 0em`,
+        },
+      }}
+      spacing={1}
+    >
+      <Grid item xs={12}>
+        <ChipContainer
+          styles={{
+            padding: "1em 1.3em",
+            margin: "0 0 0 1em",
+          }}
+        >
+          <Grid item xs={12}>
+            <DynamicTitle text="User Approval" />
+          </Grid>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Email/Name</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(getValues("userApprovalForm.userList") || [])?.map(
+                  (user, userInd) => (
+                    <TableRow key={userInd}>
+                      {/* // <TableRow key={userInd} onClick={() => {console.log(user, userInd)}}> */}
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>PENDING</TableCell>
+                      <TableCell>
+                        <Button
+                          aria-controls="user-menu"
+                          aria-haspopup="true"
+                          onClick={handleMenuOpen}
+                        >
+                          {/* <MoreVertIcon /> */}
+                          ...
+                        </Button>
+                        <Menu
+                          id="user-menu"
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl)}
+                          onClose={handleMenuClose}
+                        >
+                          <MenuItem
+                            onClick={() => handleApproveClick(user, userInd)}
+                          >
+                            Approve
+                          </MenuItem>
+                          <MenuItem onClick={() => handleDeleteClick(user.id)}>
+                            Delete
+                          </MenuItem>
+                        </Menu>
+                      </TableCell>
+                    </TableRow>
+                  )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ChipContainer>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default Approval;
