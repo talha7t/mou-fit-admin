@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-
-import { Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-
-import { MdHome, MdPublic, MdSubscriptions, MdMoveDown, MdMoveUp } from 'react-icons/md'
-
-
+import MenuIcon from '@mui/icons-material/Menu';
+import { Drawer, IconButton, List, Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { MdHome, MdMoveDown, MdMoveUp, MdPublic, MdSubscriptions } from 'react-icons/md';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -14,18 +11,16 @@ const styles = {
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        // backgroundColor: '#171821',
     },
     drawerPaper: {
         width: drawerWidth,
         backgroundColor: '#171821',
-
     },
     drawerItem: {
         paddingX: '20px',
     },
     iconColor: {
-        color: '#87888C',        
+        color: '#87888C',
     },
     iconSize: {
         fontSize: '20px'
@@ -36,9 +31,6 @@ const styles = {
     logo: {
         minHeight: '64px',
     },
-    
-
-
 };
 
 const activeLinkStyle = {
@@ -57,21 +49,25 @@ const activeLinkStyle = {
     // '&.Mui-selected , &:hover': { } // @@ BOTH ACTIVE AND HOVER EFFECT
 };
 
-const SidebarComp = () => {
+const SidebarComp = (props) => {
 
     const router = useRouter();
-    const [websiteOpen, setWebsiteOpen] = useState(false);
-
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [subMenuOpen, setSubMenuOpen] = useState({});
-    
+
     const toggleSubMenu = (index) => {
         setSubMenuOpen({
             ...subMenuOpen,
             [index]: !subMenuOpen[index],
         });
     };
-    const toggleWebsite = () => {
-        setWebsiteOpen(!websiteOpen);
+
+    const handleDrawerClose = () => {
+        setIsDrawerOpen(false);
+    }
+
+    const handleDrawerToggle = () => {
+        setIsDrawerOpen(prev => !prev)
     };
 
     const menuItems = [
@@ -122,6 +118,7 @@ const SidebarComp = () => {
                         component={Link}
                         href={item.to}
                         selected={router.pathname === item.to}
+                        onClick={() => setIsDrawerOpen(false)}
                         sx={router.pathname === item.to ? activeLinkStyle : {}}
                     >
                         <ListItemIcon style={styles.iconWidth} sx={[styles.iconColor, styles.iconSize]}  >{item.icon}</ListItemIcon>
@@ -144,6 +141,7 @@ const SidebarComp = () => {
                                     key={subIndex}
                                     component={Link}
                                     href={subItem.to}
+                                    onClick={() => setIsDrawerOpen(false)}
                                     selected={router.pathname === subItem.to}
                                 >
                                     <ListItemText primary={subItem.text} />
@@ -157,26 +155,38 @@ const SidebarComp = () => {
     };
 
     return (
-
-        <Drawer
-            style={styles.drawer}
-            variant="permanent"
-            classes={{
-                paper: styles.drawerPaper,
-            }}
-            sx={{
-                '& .MuiPaper-root': {
-                    backgroundColor: '#171821',
-                    color: '#87888C'
-                },
-            }}
-        >
-            <div style={styles.logo} />
-            <List
-                sx={styles.drawerItem}
-            >{renderMenuItems()}</List>
-        </Drawer>
-        // </Grid>
+        <Box>
+            {
+                props?.isSmallScreen && <IconButton
+                    aria-label="open drawer"
+                    edge="start"
+                    onClick={handleDrawerToggle}
+                    sx={{ mx: 1, display: { sm: 'none' } }}
+                >
+                    <MenuIcon style={{ color: '#fff' }} />
+                </IconButton>
+            }
+            <Drawer
+                style={styles.drawer}
+                variant={props?.isSmallScreen ? "temporary" : "permanent"}
+                onClose={handleDrawerClose}
+                classes={{
+                    paper: styles.drawerPaper,
+                }}
+                sx={{
+                    '& .MuiPaper-root': {
+                        backgroundColor: '#171821',
+                        color: '#87888C'
+                    },
+                }}
+                open={isDrawerOpen}
+            >
+                <div style={styles.logo} />
+                <List
+                    sx={styles.drawerItem}
+                >{renderMenuItems()}</List>
+            </Drawer>
+        </Box>
     );
 };
 
