@@ -11,14 +11,14 @@ export default function App({ Component, pageProps }) {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
-    // Check window width during render
-    if (
-      typeof window !== "undefined" &&
-      window.innerWidth < 768 &&
-      !isSmallScreen
-    ) {
-      setIsSmallScreen(true);
-    }
+    // Check the screen size on initial render
+    checkScreenSize();
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkScreenSize);
+
+    // Cleanup event listener on component unmount
+    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
   // '/', '_error'
@@ -32,7 +32,16 @@ export default function App({ Component, pageProps }) {
     "/authentication/get-verified",
   ].includes(router.pathname);
 
-  if(isRestrictedRoute) return <Component {...pageProps} />;
+  if (isRestrictedRoute) return <Component {...pageProps} />;
+
+  // Function to check the window width and update state
+  const checkScreenSize = () => {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
+      setIsSmallScreen(true);
+    } else {
+      setIsSmallScreen(false);
+    }
+  };
 
   return (
     <>
