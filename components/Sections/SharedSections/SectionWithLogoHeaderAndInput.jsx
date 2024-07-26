@@ -53,6 +53,20 @@ const SectionWithLogoHeaderAndInput = ({ dataObj, useFormPropObj }) => {
     },
   };
 
+  const getLink = (text) => {
+    switch(text?.toLowerCase()) {
+      case "forgot password":
+      case "forgot-password":
+      case "forgotpassword":
+        return '/authentication/forgot-password';
+      case "login instead":
+      case "login":
+      case "signin":
+        return '/authentication/signin';
+      default:
+        return '/authentication/signin';
+    }
+  }
 
   return (
     <div style={styles.container}>
@@ -101,11 +115,7 @@ const SectionWithLogoHeaderAndInput = ({ dataObj, useFormPropObj }) => {
           }}
         />
 
-        {dataObj?.linkText && <Link  href={'/link-works'} onClick={(e) => {
-          e?.preventDefault();
-          router.push('/');
-
-        }} style={styles.link}>{dataObj?.linkText}</Link>}
+        {dataObj?.linkText && <Link  href={getLink(dataObj?.linkText)} style={styles.link}>{dataObj?.linkText}</Link>}
       </FlexContainer>
     </div>
   );
