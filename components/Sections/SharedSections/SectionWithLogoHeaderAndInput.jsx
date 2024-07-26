@@ -27,12 +27,6 @@ const SectionWithLogoHeaderAndInput = ({ dataObj, useFormPropObj }) => {
       padding: '2em 0 1em',
       textAlign: 'center',
     },
-    // dynamicFields: {
-    //   display: 'flex',
-    //   flexDirection: 'row',
-    //   justifyContent: 'space-between',
-    //   padding: '1em 0',
-    // },
     input: {
       margin: '0 0.5em',
     },
@@ -49,7 +43,9 @@ const SectionWithLogoHeaderAndInput = ({ dataObj, useFormPropObj }) => {
       padding: '0.5em 1em',
       margin: '0 0.5em',
       textDecoration: 'none',
-      color: '#0070f3',
+      fontWeight: 'normal',
+      color: '#fff',
+      letterSpacing: '1px',
     },
   };
 
@@ -111,7 +107,7 @@ const SectionWithLogoHeaderAndInput = ({ dataObj, useFormPropObj }) => {
           styles={{
             padding: '0.6em 2.6em',
             hvrPadding: '0.6em 2.6em',
-
+            color: '#fff'
           }}
         />
 
