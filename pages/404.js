@@ -13,7 +13,7 @@ const Custom404 = () => {
 
   return (
     <div style={containerStyles}>
-      <Image src={Img} alt='404 img' width='250' height='250' />
+      <Image src={Img} alt='404 img' style={{width: '20rem', height: '20rem'}} />
     </div>
   );
 };

@@ -32,6 +32,8 @@ export default function App({ Component, pageProps }) {
     "/authentication/get-verified",
   ].includes(router.pathname);
 
+  if(isRestrictedRoute) return <Component {...pageProps} />;
+
   return (
     <>
       <Grid container style={{ paddingTop: isSmallScreen ? "3vh" : "inherit" }}>
