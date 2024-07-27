@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, List, Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, List, Box, ListItemButton, ListItemIcon, ListItemText, Toolbar } from '@mui/material';
 import { MdHome, MdMoveDown, MdMoveUp, MdPublic, MdSubscriptions } from 'react-icons/md';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -168,9 +168,9 @@ const SidebarComp = (props) => {
                     },
                 }}
             >
-                <div style={styles.logo} />
-                <List
-                    sx={styles.drawerItem}
+                <Toolbar />
+                {/* <div style={styles.logo} /> */}
+                <List sx={styles.drawerItem}
                 >{renderMenuItems()}</List>
             </Drawer>
             <Drawer
@@ -185,10 +185,9 @@ const SidebarComp = (props) => {
                 }}
                 open
             >
-                <div style={styles.logo} />
-                <List
-                    sx={styles.drawerItem}
-                >{renderMenuItems()}</List>
+                <Toolbar />
+                {/* <div style={styles.logo} /> */}
+                <List sx={styles.drawerItem}>{renderMenuItems()}</List>
             </Drawer>
         </Box>
     );

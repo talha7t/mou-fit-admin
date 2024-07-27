@@ -20,16 +20,11 @@ const DashboardView = () => {
         { text: 'New Signup', icon: <MdHome />, count: 500, src: Icon4 },
     ];
 
-    let padding = '4em 0 0 ';
-
     return (
         <Grid container
             sx={{
-                padding: {
-                    sm: `${padding} 6em`,
-                    md: `${padding} 5em`,
-                    lg: `${padding} 2em`,
-                    xl: `${padding} 0em`
+                marginTop: {
+                    xs: '2rem'
                 }
             }}
             spacing={1}
