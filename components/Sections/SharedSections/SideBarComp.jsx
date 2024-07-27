@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Drawer, IconButton, List, Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, List, Box, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { MdHome, MdMoveDown, MdMoveUp, MdPublic, MdSubscriptions } from 'react-icons/md';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -9,11 +8,11 @@ const drawerWidth = 240;
 
 const styles = {
     drawer: {
-        width: drawerWidth,
+        // width: drawerWidth,
         flexShrink: 0,
     },
     drawerPaper: {
-        width: drawerWidth,
+        // width: drawerWidth,
         backgroundColor: '#171821',
     },
     drawerItem: {
@@ -52,7 +51,6 @@ const activeLinkStyle = {
 const SidebarComp = (props) => {
 
     const router = useRouter();
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [subMenuOpen, setSubMenuOpen] = useState({});
 
     const toggleSubMenu = (index) => {
@@ -62,12 +60,10 @@ const SidebarComp = (props) => {
         });
     };
 
-    const handleDrawerClose = () => {
-        setIsDrawerOpen(false);
-    }
 
-    const handleDrawerToggle = () => {
-        setIsDrawerOpen(prev => !prev)
+    const handleDrawerClose = () => {
+        props?.setIsClosing(false);
+        props?.setMobileOpen(false);
     };
 
     const menuItems = [
@@ -118,7 +114,7 @@ const SidebarComp = (props) => {
                         component={Link}
                         href={item.to}
                         selected={router.pathname === item.to}
-                        onClick={() => setIsDrawerOpen(false)}
+                        onClick={() => handleDrawerClose()}
                         sx={router.pathname === item.to ? activeLinkStyle : {}}
                     >
                         <ListItemIcon style={styles.iconWidth} sx={[styles.iconColor, styles.iconSize]}  >{item.icon}</ListItemIcon>
@@ -141,7 +137,7 @@ const SidebarComp = (props) => {
                                     key={subIndex}
                                     component={Link}
                                     href={subItem.to}
-                                    onClick={() => setIsDrawerOpen(false)}
+                                    onClick={() => handleDrawerClose()}
                                     selected={router.pathname === subItem.to}
                                 >
                                     <ListItemText primary={subItem.text} />
@@ -156,30 +152,38 @@ const SidebarComp = (props) => {
 
     return (
         <Box>
-            {
-                props?.isSmallScreen && <IconButton
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    sx={{ mx: 1, display: { sm: 'none' } }}
-                >
-                    <MenuIcon style={{ color: '#fff' }} />
-                </IconButton>
-            }
             <Drawer
-                style={styles.drawer}
-                variant={props?.isSmallScreen ? "temporary" : "permanent"}
+                variant="temporary"
+                open={props?.mobileOpen}
                 onClose={handleDrawerClose}
-                classes={{
-                    paper: styles.drawerPaper,
+                ModalProps={{
+                    keepMounted: true, // Better open performance on mobile.
                 }}
                 sx={{
+                    display: { xs: 'block', sm: 'none' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     '& .MuiPaper-root': {
                         backgroundColor: '#171821',
                         color: '#87888C'
                     },
                 }}
-                open={isDrawerOpen}
+            >
+                <div style={styles.logo} />
+                <List
+                    sx={styles.drawerItem}
+                >{renderMenuItems()}</List>
+            </Drawer>
+            <Drawer
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    '& .MuiPaper-root': {
+                        backgroundColor: '#171821',
+                        color: '#87888C'
+                    },
+                }}
+                open
             >
                 <div style={styles.logo} />
                 <List
