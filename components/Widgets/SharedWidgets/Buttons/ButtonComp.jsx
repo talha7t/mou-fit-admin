@@ -17,6 +17,7 @@ const ButtonComp = ({ data, styles }) => {
                     opacity: data?.isDisabled ? '0.60' : '1',
                     padding: styles?.padding ?? "0.6em",
                     width: styles?.width ,
+                    marginLeft: '2rem',
                     "&:hover": {
                         color: styles?.hoverClr ?? 'white',
                         backgroundColor: styles?.hoverBg ?? "#7D54C5",
