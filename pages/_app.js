@@ -69,7 +69,7 @@ export default function App({ Component, pageProps }) {
           setMobileOpen={setMobileOpen}
         />
       </Box>
-
+      
         <Component {...pageProps} />
     </Box>
   );
