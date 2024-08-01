@@ -57,8 +57,7 @@ const TitleAndBtnRow = ({ data, styles, useFormPropObj }) => {
                     styles={{
                         padding: styles?.padding ?? '0.5em 2em',
                         hvrPadding: styles?.hvrPadding ?? '0.6em 2em',
-                        margin: '0 1em 0 0'
-                        
+                       color: '#fff',
                     }}
                 />}
                 

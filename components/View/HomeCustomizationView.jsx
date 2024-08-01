@@ -28,7 +28,7 @@ const HomeCustomizationView = ({
   //  ,handleCloseModal, handleOpenModal
   const { onSubmit, setDynamicSectionsArr, handleSubmit } = methodsObj;
 
-  let padding = "4em 0 0 ";
+  let padding = "4em 2em 0 ";
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -46,9 +46,10 @@ const HomeCustomizationView = ({
       container
       sx={{
         padding: {
-          sm: `${padding} 6em`,
-          md: `${padding} 5em`,
-          lg: `${padding} 1.2em`,
+          xs: `${padding} 1em`,
+          sm: `${padding} 2em`,
+          md: `${padding} 2em`,
+          lg: `${padding} 2em`,
           xl: `${padding} 0em`,
         },
       }}

@@ -23,10 +23,11 @@ const Settings = () => {
       <Grid container
         sx={{
           padding: {
-            sm: `${padding} 6em`,
-            md: `${padding} 5em`,
-            lg: `${padding} 1.2em`,
-            xl: `${padding} 0em`
+            xs: `${padding} 0`,
+            sm: `${padding} 0`,
+            md: `${padding} 0`,
+            lg: `${padding} 0`,
+            xl: `${padding} 0`
           },
         }}
         spacing={1}
@@ -34,7 +35,7 @@ const Settings = () => {
 
         <ChipContainer styles={{
           padding: '1em 1.3em',
-          margin: '0 0 1em 2em',
+          margin: '0 1.5em 1em 2em',
           display: 'flex',
           flexDirection: 'column',
           width: '95%',

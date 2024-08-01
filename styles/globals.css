@@ -112,3 +112,14 @@ a {
     color-scheme: dark;
   }
 }
+
+.content-container {
+  margin: 2em;
+}
+
+@media screen and (max-width: 600px) {
+  .content-container {
+    padding-top: 3.5em;
+    margin-top: 0;
+  }
+}

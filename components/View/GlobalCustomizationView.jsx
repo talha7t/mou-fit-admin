@@ -12,7 +12,7 @@ const GlobalCustomizationview = ({ methodsObj, useFormPropObj, dataObj }) => {
   const { onSubmit, handleSubmit, setDynamicSectionsArr } = methodsObj;
   const { formName, setValue, getValues } = useFormPropObj;
 
-  let padding = "4em 0 0 ";
+  let padding = "4em 2em 0 ";
 
   // console.log(dataObj)
   // console.log(useFormPropObj.watch())
@@ -22,10 +22,11 @@ const GlobalCustomizationview = ({ methodsObj, useFormPropObj, dataObj }) => {
         container
         sx={{
           padding: {
-            sm: `${padding} 6em`,
-            md: `${padding} 5em`,
-            lg: `${padding} 1.2em`,
-            xl: `${padding} 0em`,
+            xs: `${padding} 1em`,
+            sm: `${padding} 2em`,
+            md: `${padding} 2em`,
+            lg: `${padding} 2em`,
+            xl: `${padding} 2em`,
           },
         }}
         spacing={1}

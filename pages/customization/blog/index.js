@@ -10,7 +10,7 @@ const BlogList = () => {
   const router = useRouter();
 
   return (
-    <FlexContainer grid={12} styles={{margin: '2em'}}>
+    <FlexContainer grid={12} classes='content-container'>
 
       <ChipContainer  >
         <TitleAndBtnRow data={{

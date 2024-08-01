@@ -9,7 +9,7 @@ import AuthWrapper from '@/components/Utils/Auth/authWrapper';
 const SubscriptionList = () => {
     const router = useRouter();
     return (
-        <FlexContainer grid={12} styles={{ margin: '2em' }}>
+        <FlexContainer grid={12} classes='content-container'>
             <ChipContainer  >
                 <TitleAndBtnRow data={{
                     text: 'Subscriptions',

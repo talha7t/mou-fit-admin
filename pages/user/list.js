@@ -27,7 +27,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-let padding = "4em 0 0 ";
+let padding = "4em 2em 0 ";
 
   const Userlist = () => {
     const {
@@ -115,19 +115,20 @@ let padding = "4em 0 0 ";
         container
         sx={{
           padding: {
-            sm: `${padding} 6em`,
-            md: `${padding} 5em`,
-            lg: `${padding} 1.2em`,
-            xl: `${padding} 0em`,
+            xs: `${padding} 0`,
+            sm: `${padding} 0`,
+            md: `${padding} 0`,
+            lg: `${padding} 0`,
+            xl: `${padding} 0`
           },
         }}
         spacing={1}
       >
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{paddingRight: '2em'}}>
           <ChipContainer
             styles={{
               padding: "1em 1.3em",
-              margin: "0 0 0 1em",
+              margin: "0 1.5em 1em 2em",
             }}
           >
             <Grid item xs={12}>

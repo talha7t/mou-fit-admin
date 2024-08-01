@@ -10,7 +10,7 @@ import DataTableComp from '@/components/Widgets/SharedWidgets/Tables/DataTableCo
 const ServicesList = () => {
     const router = useRouter();
     return (
-        <FlexContainer grid={12} styles={{ margin: '2em' }}>
+        <FlexContainer grid={12} classes='content-container'>
             <ChipContainer  >
                 <TitleAndBtnRow data={{
                     text: 'Services',
