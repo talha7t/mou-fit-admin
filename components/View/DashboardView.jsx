@@ -24,8 +24,9 @@ const DashboardView = () => {
         <Grid container
             sx={{
                 marginTop: {
-                    xs: '2rem'
-                }
+                    xs: '4rem'
+                },
+                marginLeft: '2rem'
             }}
             spacing={1}
         >
