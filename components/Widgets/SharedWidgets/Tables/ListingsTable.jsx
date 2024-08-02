@@ -10,7 +10,26 @@ import {
     TablePagination,
     Checkbox,
     Paper,
+    IconButton,
+    Menu,
+    MenuItem,
 } from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+// constants
+const tableHeaderCellStyles = {
+    color: 'white',
+    '&.Mui-active': {
+        color: 'white',
+        fontWeight: '700'
+    },
+    '&:hover': {
+        color: 'white'
+    },
+    "& .MuiTableSortLabel-icon": { color: 'white !important' },
+    "& .MuiTableSortLabel-iconDirectionAsc": { color: 'white !important' },
+    "& .MuiTableSortLabel-iconDirectionDesc	": { color: 'white !important' },
+}
 
 // Function to compare values for sorting
 function descendingComparator(a, b, orderBy) {
@@ -48,6 +67,8 @@ const ReusableTable = ({ columns, data }) => {
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [currentRowId, setCurrentRowId] = useState(null);
 
     // Handle sorting request
     const handleRequestSort = (property) => (event) => {
@@ -98,6 +119,30 @@ const ReusableTable = ({ columns, data }) => {
         setPage(0);
     };
 
+    // Handle menu open
+    const handleMenuOpen = (event, id) => {
+        setAnchorEl(event.currentTarget);
+        setCurrentRowId(id);
+    };
+
+    // Handle menu close
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        setCurrentRowId(null);
+    };
+
+    // Handle edit action
+    const handleEdit = () => {
+        // onEdit(currentRowId);
+        handleMenuClose();
+    };
+
+    // Handle delete action
+    const handleDelete = () => {
+        // onDelete(currentRowId);
+        handleMenuClose();
+    };
+
     // Check if a row is selected
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
@@ -122,24 +167,13 @@ const ReusableTable = ({ columns, data }) => {
                                         active={orderBy === column.id}
                                         direction={orderBy === column.id ? order : 'asc'}
                                         onClick={handleRequestSort(column.id)}
-                                        sx={{
-                                            color: 'white',
-                                            '&.Mui-active': {
-                                                color: 'white',
-                                                fontWeight: '700'
-                                            },
-                                            '&:hover': {
-                                                color: 'white'
-                                            },
-                                            "& .MuiTableSortLabel-icon": {color: 'white !important'},
-                                            "& .MuiTableSortLabel-iconDirectionAsc": {color: 'white !important'},
-                                            "& .MuiTableSortLabel-iconDirectionDesc	": {color: 'white !important'},
-                                        }}
+                                        sx={tableHeaderCellStyles}
                                     >
                                         {column.label}
                                     </TableSortLabel>
                                 </TableCell>
                             ))}
+                            <TableCell sx={tableHeaderCellStyles}>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -170,6 +204,23 @@ const ReusableTable = ({ columns, data }) => {
                                         {columns.map((column) => (
                                             <TableCell sx={{ color: 'white' }} key={column.id}>{row[column.id]}</TableCell>
                                         ))}
+
+                                        <TableCell>
+                                            <IconButton onClick={(event) => handleMenuOpen(event, row.id)}>
+                                                <MoreVertIcon sx={{ color: 'white' }} />
+                                            </IconButton>
+                                            <Menu
+                                                anchorEl={anchorEl}
+                                                open={Boolean(anchorEl) && currentRowId === row.id}
+                                                onClose={handleMenuClose}
+                                                sx={{
+                                                    "& .MuiMenu-paper": { backgroundColor: '#7D54C5' }
+                                                }}
+                                            >
+                                                <MenuItem sx={{ color: '#fff' }} onClick={handleEdit}>Edit</MenuItem>
+                                                <MenuItem sx={{ color: 'red' }} onClick={handleDelete}>Delete</MenuItem>
+                                            </Menu>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}

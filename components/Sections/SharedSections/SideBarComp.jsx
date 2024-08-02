@@ -164,7 +164,7 @@ const SidebarComp = (props) => {
                     '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     '& .MuiPaper-root': {
                         backgroundColor: '#171821',
-                        color: '#87888C'
+                        color: '#87888C',
                     },
                 }}
             >
@@ -180,7 +180,8 @@ const SidebarComp = (props) => {
                     '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
                     '& .MuiPaper-root': {
                         backgroundColor: '#171821',
-                        color: '#87888C'
+                        color: '#87888C',
+                        borderRight: '0.5px solid white !important',
                     },
                 }}
                 open
