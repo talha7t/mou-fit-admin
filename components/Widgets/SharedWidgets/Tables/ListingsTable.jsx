@@ -147,12 +147,12 @@ const ReusableTable = ({ columns, data }) => {
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
     return (
-        <Paper sx={{ width: '100%', marginTop: '2rem' }}>
+        <Paper sx={{ width: '100%'}}>
             <TableContainer sx={{ backgroundColor: '#171821' }}>
                 <Table>
                     <TableHead sx={{ color: '#fff' }}>
                         <TableRow>
-                            <TableCell padding="checkbox" sx={{ color: 'white' }}>
+                            <TableCell padding="checkbox" sx={{ color: 'white',  padding:  '2rem' }}>
                                 <Checkbox
                                     indeterminate={selected.length > 0 && selected.length < data.length}
                                     checked={data.length > 0 && selected.length === data.length}
@@ -194,7 +194,7 @@ const ReusableTable = ({ columns, data }) => {
                                         selected={isItemSelected}
                                         sx={{ color: 'white' }}
                                     >
-                                        <TableCell padding="checkbox" sx={{ color: 'white' }}>
+                                        <TableCell padding="checkbox" sx={{ color: 'white', paddingLeft: '2rem'  }}>
                                             <Checkbox
                                                 checked={isItemSelected}
                                                 inputProps={{ 'aria-labelledby': labelId }}
