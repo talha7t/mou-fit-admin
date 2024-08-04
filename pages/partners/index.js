@@ -5,7 +5,7 @@ import FlexContainer from "@/components/Widgets/SharedWidgets/Containers/FlexCon
 import ListingsTable from "@/components/Widgets/SharedWidgets/Tables/ListingsTable";
 import { useRouter } from "next/router";
 import AuthWrapper from "@/components/Utils/Auth/authWrapper";
-import { Autocomplete, Box, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
 import { getAllDocsWithinCollection } from "@/components/Helpers/ApiCalls/firebaseApiCalls";
 
 const selectInputStyles = {
@@ -32,6 +32,55 @@ const selectInputStyles = {
   "& .MuiSvgIcon-root": { color: "white" },
 };
 
+const applyStyles = {
+  marginLeft: {
+    md: "2rem",
+  },
+  backgroundColor: {
+    xs: "#7D54C5",
+    md: "transparent",
+  },
+  marginTop: {
+    xs: "1rem",
+    md: "0",
+  },
+  padding: {
+    xs: "1rem 0",
+    md: "1rem",
+  },
+  color: {
+    xs: "#fff",
+    md: "#7D54C5",
+  },
+  borderRadius: {
+    xs: "5px",
+    md: 0,
+  },
+  textAlign: "center",
+  cursor: "pointer",
+};
+
+const containerStyles = {
+  margin: {
+    xs: "3em 1rem 0 1rem",
+    sm: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+  },
+}
+
+const autoCompleteStyles = {
+  width: {
+    xs: "98%",
+    sm: "98%",
+    md: "100%",
+    lg: "99%",
+    xl: "99%",
+  },
+  borderColor: "#fff",
+};
+
 // Define the columns for the table
 const columns = [
   { id: "id", label: "Id" },
@@ -46,7 +95,7 @@ const PartnerList = () => {
   const router = useRouter();
 
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
@@ -57,7 +106,7 @@ const PartnerList = () => {
     try {
       setLoading(true);
       const partners = await getAllDocsWithinCollection("users");
-      
+
       if (partners?.length > 0) {
         const temp = partners.map((partner) => ({
           id: partner.id,
@@ -81,7 +130,9 @@ const PartnerList = () => {
   };
 
   return (
-    <FlexContainer grid={12} classes="content-container">
+    <Box
+      sx={containerStyles}
+    >
       <ChipContainer>
         <TitleAndBtnRow
           data={{
@@ -101,91 +152,94 @@ const PartnerList = () => {
             backgroundColor: "#171821",
           }}
         >
-          {
-            !loading && 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              width: "100%",
-              padding: "2rem",
-              paddingBottom: "1rem",
-            }}
-          >
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={[{ label: "Gym" }, { label: "Club" }]}
-              sx={{ width: "10rem", borderColor: "#fff" }}
-              renderInput={(params) => (
-                <TextField
-                  className="text-field"
-                  {...params}
-                  label="Category"
-                  sx={selectInputStyles}
-                />
-              )}
-            />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={[{ label: "Gym" }, { label: "Club" }]}
-              sx={{ width: "10rem", borderColor: "#fff" }}
-              renderInput={(params) => (
-                <TextField
-                  className="text-field"
-                  {...params}
-                  label="Services"
-                  sx={selectInputStyles}
-                />
-              )}
-            />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={[{ label: "Gym" }, { label: "Club" }]}
-              sx={{ width: "10rem", borderColor: "#fff" }}
-              renderInput={(params) => (
-                <TextField
-                  className="text-field"
-                  {...params}
-                  label="Region"
-                  sx={selectInputStyles}
-                />
-              )}
-            />
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={[{ label: "Gym" }, { label: "Club" }]}
-              sx={{ width: "10rem", borderColor: "#fff" }}
-              renderInput={(params) => (
-                <TextField
-                  className="text-field"
-                  {...params}
-                  label="Locations"
-                  sx={selectInputStyles}
-                />
-              )}
-            />
-
-            <Typography
-              component={"p"}
+          {!loading && (
+            <Grid
               sx={{
-                marginLeft: "2rem",
-                padding: "1rem",
-                color: "#7D54C5",
-                cursor: "pointer",
+                padding: "2rem",
+                paddingBottom: "1rem",
               }}
+              container
             >
-              Apply
-            </Typography>
-          </Box>
-          }
+              {/* Row 1 */}
+              <Grid item xs={6} sm={6} md={2}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={[{ label: "Gym" }, { label: "Club" }]}
+                  sx={autoCompleteStyles}
+                  renderInput={(params) => (
+                    <TextField
+                      className="text-field"
+                      {...params}
+                      label="Category"
+                      sx={selectInputStyles}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6} sm={6} md={2}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={[{ label: "Gym" }, { label: "Club" }]}
+                  sx={autoCompleteStyles}
+                  renderInput={(params) => (
+                    <TextField
+                      className="text-field"
+                      {...params}
+                      label="Services"
+                      sx={selectInputStyles}
+                    />
+                  )}
+                />
+              </Grid>
+
+              {/* Row 2 */}
+              <Grid item xs={6} sm={6} md={2}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={[{ label: "Gym" }, { label: "Club" }]}
+                  sx={autoCompleteStyles}
+                  renderInput={(params) => (
+                    <TextField
+                      className="text-field"
+                      {...params}
+                      label="Region"
+                      sx={selectInputStyles}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6} sm={6} md={2}>
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={[{ label: "Gym" }, { label: "Club" }]}
+                  sx={autoCompleteStyles}
+                  renderInput={(params) => (
+                    <TextField
+                      className="text-field"
+                      {...params}
+                      label="Locations"
+                      sx={selectInputStyles}
+                    />
+                  )}
+                />
+              </Grid>
+
+              {/* Row 3 */}
+              <Grid item xs={12} sm={12} md={2}>
+                <Typography component={"p"} sx={applyStyles}>
+                  Apply
+                </Typography>
+              </Grid>
+            </Grid>
+          )}
           <ListingsTable columns={columns} data={data} loading={loading} />
         </Box>
       </ChipContainer>
-    </FlexContainer>
+    </Box>
   );
 };
 

@@ -162,7 +162,7 @@ const ListingsTable = ({ columns, data, loading }) => {
                     <Table>
                         <TableHead sx={{ color: '#fff' }}>
                             <TableRow>
-                                <TableCell padding="checkbox" sx={{ color: 'white', padding: '2rem' }}>
+                                <TableCell padding="checkbox" sx={{ color: 'white', padding: '0 2rem' }}>
                                     <Checkbox
                                         indeterminate={selected.length > 0 && selected.length < data?.length}
                                         checked={data?.length > 0 && selected.length === data?.length}
@@ -172,7 +172,7 @@ const ListingsTable = ({ columns, data, loading }) => {
                                     />
                                 </TableCell>
                                 {columns.map((column) => (
-                                    <TableCell key={column.id} sx={{ color: 'white' }}>
+                                    <TableCell key={column.id} sx={{ color: 'white', paddingLeft: '1rem' }}>
                                         <TableSortLabel
                                             active={orderBy === column.id}
                                             direction={orderBy === column.id ? order : 'asc'}
@@ -212,7 +212,7 @@ const ListingsTable = ({ columns, data, loading }) => {
                                                 />
                                             </TableCell>
                                             {columns.map((column) => (
-                                                <TableCell sx={{ color: 'white' }} key={column.id}>{row[column.id]}</TableCell>
+                                                <TableCell sx={{ color: 'white', paddingLeft: '1rem' }} key={column.id}>{row[column.id]}</TableCell>
                                             ))}
 
                                             <TableCell>

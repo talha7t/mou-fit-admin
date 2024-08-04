@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <CssBaseline />
       <AppBar
         position="fixed"
