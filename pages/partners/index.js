@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TitleAndBtnRow from "@/components/Sections/SharedSections/TitleAndBtnRow";
 import ChipContainer from "@/components/Widgets/SharedWidgets/Containers/ChipContainer";
 import FlexContainer from "@/components/Widgets/SharedWidgets/Containers/FlexContainer";
@@ -6,46 +6,31 @@ import ListingsTable from "@/components/Widgets/SharedWidgets/Tables/ListingsTab
 import { useRouter } from "next/router";
 import AuthWrapper from "@/components/Utils/Auth/authWrapper";
 import { Autocomplete, Box, TextField, Typography } from "@mui/material";
+import { getAllDocsWithinCollection } from "@/components/Helpers/ApiCalls/firebaseApiCalls";
 
 const selectInputStyles = {
-  '& .MuiOutlinedInput-root': {
+  "& .MuiOutlinedInput-root": {
     // height: '2.5rem', // Change the height here
     // padding: '5px',
-    '& fieldset': {
-      borderColor: 'white', // Default border color
+    "& fieldset": {
+      borderColor: "white", // Default border color
     },
-    '&:hover fieldset': {
-      borderColor: 'white', // Border color on hover
+    "&:hover fieldset": {
+      borderColor: "white", // Border color on hover
     },
-    '&.Mui-focused fieldset': {
-      borderColor: 'white', // Border color when focused
+    "&.Mui-focused fieldset": {
+      borderColor: "white", // Border color when focused
     },
-    color: 'white', // Text color
+    color: "white", // Text color
   },
-  '& .MuiInputLabel-root': {
-    color: 'white', // Placeholder color
+  "& .MuiInputLabel-root": {
+    color: "white", // Placeholder color
   },
-  '& .MuiInputLabel-root.Mui-focused': {
-    color: 'white', // Placeholder color when focused
+  "& .MuiInputLabel-root.Mui-focused": {
+    color: "white", // Placeholder color when focused
   },
-  '& .MuiSvgIcon-root': {color: 'white'}
-}
-
-// Define data structure for each row
-function createData(id, name, type, location, region, status) {
-  return { id, name, type, location, region, status };
-}
-
-// Example data
-const data = [
-  createData(1, "Fitness Hub", "Gym", 101, 10, "Active"),
-  createData(2, "Adventure Park", "Random", 202, 20, "On Hold"),
-  createData(3, "Health Club", "Gym", 303, 30, "Active"),
-  createData(4, "Mystery Spot", "Random", 404, 40, "On Hold"),
-  createData(5, "Workout Zone", "Gym", 505, 50, "Active"),
-  createData(6, "Workout Zone", "Gym", 505, 50, "Active"),
-  createData(7, "Workout Zone", "Gym", 505, 50, "Active"),
-];
+  "& .MuiSvgIcon-root": { color: "white" },
+};
 
 // Define the columns for the table
 const columns = [
@@ -60,7 +45,40 @@ const columns = [
 const PartnerList = () => {
   const router = useRouter();
 
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const partners = await getAllDocsWithinCollection("users");
+      
+      if (partners?.length > 0) {
+        const temp = partners.map((partner) => ({
+          id: partner.id,
+          name: partner.first_name + " " + partner.last_name,
+          type: partner?.type || "Gym",
+          location: partner?.location || 1,
+          region: partner?.region || 2,
+          status: partner?.status || "Inactive",
+        }));
+
+        setData(temp);
+        setLoading(false);
+      } else {
+        setData([]);
+        setLoading(false);
+      }
+    } catch (error) {
+      setData([]);
+      setLoading(false);
+    }
+  };
 
   return (
     <FlexContainer grid={12} classes="content-container">
@@ -76,8 +94,24 @@ const PartnerList = () => {
           }}
         />
 
-        <Box sx={{ width: "100%", marginTop: "1.5rem", backgroundColor: '#171821' }}>
-          <Box sx={{ display: "flex", alignItems: 'center', width: "100%", padding: '2rem', paddingBottom: '1rem' }}>
+        <Box
+          sx={{
+            width: "100%",
+            marginTop: "1.5rem",
+            backgroundColor: "#171821",
+          }}
+        >
+          {
+            !loading && 
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              padding: "2rem",
+              paddingBottom: "1rem",
+            }}
+          >
             <Autocomplete
               disablePortal
               id="combo-box-demo"
@@ -135,9 +169,20 @@ const PartnerList = () => {
               )}
             />
 
-            <Typography component={"p"} sx={{marginLeft:  '2rem', padding: '1rem', color: '#7D54C5', cursor: 'pointer'}}>Apply</Typography>
+            <Typography
+              component={"p"}
+              sx={{
+                marginLeft: "2rem",
+                padding: "1rem",
+                color: "#7D54C5",
+                cursor: "pointer",
+              }}
+            >
+              Apply
+            </Typography>
           </Box>
-          <ListingsTable columns={columns} data={data} />
+          }
+          <ListingsTable columns={columns} data={data} loading={loading} />
         </Box>
       </ChipContainer>
     </FlexContainer>

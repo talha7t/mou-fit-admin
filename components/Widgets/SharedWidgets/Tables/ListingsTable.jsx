@@ -13,6 +13,7 @@ import {
     IconButton,
     Menu,
     MenuItem,
+    CircularProgress,
 } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
@@ -51,17 +52,17 @@ function getComparator(order, orderBy) {
 
 // Stable sort implementation
 function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
+    const stabilizedThis = array?.map((el, index) => [el, index]);
+    stabilizedThis?.sort((a, b) => {
         const order = comparator(a[0], b[0]);
         if (order !== 0) return order;
         return a[1] - b[1];
     });
-    return stabilizedThis.map((el) => el[0]);
+    return stabilizedThis?.map((el) => el[0]) || [];
 }
 
 // Reusable table component
-const ReusableTable = ({ columns, data }) => {
+const ListingsTable = ({ columns, data, loading }) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('id'); // Default sort by id
     const [selected, setSelected] = useState([]);
@@ -80,7 +81,7 @@ const ReusableTable = ({ columns, data }) => {
     // Handle selecting all rows
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = data.map((n) => n.id);
+            const newSelecteds = data?.map((n) => n.id);
             setSelected(newSelecteds);
             return;
         }
@@ -147,90 +148,101 @@ const ReusableTable = ({ columns, data }) => {
     const isSelected = (id) => selected.indexOf(id) !== -1;
 
     return (
-        <Paper sx={{ width: '100%'}}>
+        <Paper sx={{ width: '100%' }}>
             <TableContainer sx={{ backgroundColor: '#171821' }}>
-                <Table>
-                    <TableHead sx={{ color: '#fff' }}>
-                        <TableRow>
-                            <TableCell padding="checkbox" sx={{ color: 'white',  padding:  '2rem' }}>
-                                <Checkbox
-                                    indeterminate={selected.length > 0 && selected.length < data.length}
-                                    checked={data.length > 0 && selected.length === data.length}
-                                    onChange={handleSelectAllClick}
-                                    inputProps={{ 'aria-label': 'select all rows' }}
-                                    sx={{ "& svg": { color: 'white' } }}
-                                />
-                            </TableCell>
-                            {columns.map((column) => (
-                                <TableCell key={column.id} sx={{ color: 'white' }}>
-                                    <TableSortLabel
-                                        active={orderBy === column.id}
-                                        direction={orderBy === column.id ? order : 'asc'}
-                                        onClick={handleRequestSort(column.id)}
-                                        sx={tableHeaderCellStyles}
-                                    >
-                                        {column.label}
-                                    </TableSortLabel>
+
+                {loading &&
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+                        <CircularProgress />
+                    </div>
+                }
+
+                {
+                    !loading &&
+                    <Table>
+                        <TableHead sx={{ color: '#fff' }}>
+                            <TableRow>
+                                <TableCell padding="checkbox" sx={{ color: 'white', padding: '2rem' }}>
+                                    <Checkbox
+                                        indeterminate={selected.length > 0 && selected.length < data?.length}
+                                        checked={data?.length > 0 && selected.length === data?.length}
+                                        onChange={handleSelectAllClick}
+                                        inputProps={{ 'aria-label': 'select all rows' }}
+                                        sx={{ "& svg": { color: 'white' } }}
+                                    />
                                 </TableCell>
-                            ))}
-                            <TableCell sx={tableHeaderCellStyles}>Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {stableSort(data, getComparator(order, orderBy))
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                                const isItemSelected = isSelected(row.id);
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                                {columns.map((column) => (
+                                    <TableCell key={column.id} sx={{ color: 'white' }}>
+                                        <TableSortLabel
+                                            active={orderBy === column.id}
+                                            direction={orderBy === column.id ? order : 'asc'}
+                                            onClick={handleRequestSort(column.id)}
+                                            sx={tableHeaderCellStyles}
+                                        >
+                                            {column.label}
+                                        </TableSortLabel>
+                                    </TableCell>
+                                ))}
+                                <TableCell sx={tableHeaderCellStyles}>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {stableSort(data, getComparator(order, orderBy))
+                                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                ?.map((row, index) => {
+                                    const isItemSelected = isSelected(row.id);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                                return (
-                                    <TableRow
-                                        hover
-                                        onClick={() => handleClick(row.id)}
-                                        role="checkbox"
-                                        aria-checked={isItemSelected}
-                                        tabIndex={-1}
-                                        key={row.id}
-                                        selected={isItemSelected}
-                                        sx={{ color: 'white' }}
-                                    >
-                                        <TableCell padding="checkbox" sx={{ color: 'white', paddingLeft: '2rem'  }}>
-                                            <Checkbox
-                                                checked={isItemSelected}
-                                                inputProps={{ 'aria-labelledby': labelId }}
-                                                sx={{ "& svg": { color: 'white' } }}
-                                            />
-                                        </TableCell>
-                                        {columns.map((column) => (
-                                            <TableCell sx={{ color: 'white' }} key={column.id}>{row[column.id]}</TableCell>
-                                        ))}
+                                    return (
+                                        <TableRow
+                                            hover
+                                            onClick={() => handleClick(row.id)}
+                                            role="checkbox"
+                                            aria-checked={isItemSelected}
+                                            tabIndex={-1}
+                                            key={row.id}
+                                            selected={isItemSelected}
+                                            sx={{ color: 'white' }}
+                                        >
+                                            <TableCell padding="checkbox" sx={{ color: 'white', paddingLeft: '2rem' }}>
+                                                <Checkbox
+                                                    checked={isItemSelected}
+                                                    inputProps={{ 'aria-labelledby': labelId }}
+                                                    sx={{ "& svg": { color: 'white' } }}
+                                                />
+                                            </TableCell>
+                                            {columns.map((column) => (
+                                                <TableCell sx={{ color: 'white' }} key={column.id}>{row[column.id]}</TableCell>
+                                            ))}
 
-                                        <TableCell>
-                                            <IconButton onClick={(event) => handleMenuOpen(event, row.id)}>
-                                                <MoreVertIcon sx={{ color: 'white' }} />
-                                            </IconButton>
-                                            <Menu
-                                                anchorEl={anchorEl}
-                                                open={Boolean(anchorEl) && currentRowId === row.id}
-                                                onClose={handleMenuClose}
-                                                sx={{
-                                                    "& .MuiMenu-paper": { backgroundColor: '#7D54C5' }
-                                                }}
-                                            >
-                                                <MenuItem sx={{ color: '#fff' }} onClick={handleEdit}>Edit</MenuItem>
-                                                <MenuItem sx={{ color: 'red' }} onClick={handleDelete}>Delete</MenuItem>
-                                            </Menu>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                    </TableBody>
-                </Table>
+                                            <TableCell>
+                                                <IconButton onClick={(event) => handleMenuOpen(event, row.id)}>
+                                                    <MoreVertIcon sx={{ color: 'white' }} />
+                                                </IconButton>
+                                                <Menu
+                                                    anchorEl={anchorEl}
+                                                    open={Boolean(anchorEl) && currentRowId === row.id}
+                                                    onClose={handleMenuClose}
+                                                    sx={{
+                                                        "& .MuiMenu-paper": { backgroundColor: '#7D54C5' }
+                                                    }}
+                                                >
+                                                    <MenuItem sx={{ color: '#fff' }} onClick={handleEdit}>Edit</MenuItem>
+                                                    <MenuItem sx={{ color: 'red' }} onClick={handleDelete}>Delete</MenuItem>
+                                                </Menu>
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                        </TableBody>
+                    </Table>
+                }
+
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={data.length}
+                count={data?.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -245,4 +257,4 @@ const ReusableTable = ({ columns, data }) => {
     );
 };
 
-export default ReusableTable;
+export default ListingsTable;
