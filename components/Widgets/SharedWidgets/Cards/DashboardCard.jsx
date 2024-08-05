@@ -8,7 +8,8 @@ const customStyles = {
     container: {
         width: '95%',
         padding: '0.5em 1em',
-        bgColor: '#21222D'
+        bgColor: '#21222D',
+        height: '100%',
     },
     title: {
         padding: '0.5em 0.8em',

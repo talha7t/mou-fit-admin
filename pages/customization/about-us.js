@@ -18,6 +18,16 @@ import TitleWithMultipleImgs from '@/components/Sections/SharedSections/TitleWit
 import HomeChooseUsSection from '@/components/Sections/SingleUseSections/HomeCustomizationSections/HomeChooseUsSection';
 import { oldDB } from '@/components/firebase-config';
 
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
+
 const AboutUs = () => {
 
   const [dynamicSectionsArr, setDynamicSectionsArr] = useState(aboutUsSampleData || []);
@@ -207,22 +217,14 @@ const AboutUs = () => {
 
   return (
     <Grid container
-      sx={{
-        padding: {
-          xs: `${padding} 1em`,
-          sm: `${padding} 2em`,
-          md: `${padding} 2em`,
-          lg: `${padding} 2em`,
-          xl: `${padding} 2em`
-        },
-      }}
+      sx={containerStyles}
       spacing={1}
     >
       <form style={{ width: '97%' }} onSubmit={handleSubmit(onSubmit)}>
 
         <ChipContainer styles={{
           padding: '1em 1.3em',
-          margin: '0 0 0 1em',
+          margin: '0 0 0 1rem',
         }} >
           {/* TITLE AND BTN ROW */}
           <TitleAndBtnRow data={{ onClick: onSubmit, text: 'About Us Page Customization', dynamicSectionsArr, setDynamicSectionsArr, availableSections: aboutUsPageAvailableSections }} useFormPropObj={useFormFeaturesPropObj} styles={{ margin: '0 0  1em 0' }} />

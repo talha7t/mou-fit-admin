@@ -130,9 +130,7 @@ const PartnerList = () => {
   };
 
   return (
-    <Box
-      sx={containerStyles}
-    >
+    <Box sx={containerStyles}>
       <ChipContainer>
         <TitleAndBtnRow
           data={{

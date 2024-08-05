@@ -10,6 +10,16 @@ import Icon4 from '../../public/images/dashboardImages/Icon4.png';
 // import DashboardCardSection from '../Sections/SingleUseSections/DashboardSections/DashboardCardSection';
 import DashboardCard from '../Widgets/SharedWidgets/Cards/DashboardCard';
 
+const containerStyles = {
+padding: {
+      xs: "3em 1rem 0 1rem",
+      sm: "4em 2rem 0 260px",
+      md: "4em 2rem 0 260px",
+      lg: "4em 2rem 0 260px",
+      xl: "4em 2rem 0 260px",
+    },
+  }
+  
 
 const DashboardView = () => {
 
@@ -22,12 +32,7 @@ const DashboardView = () => {
 
     return (
         <Grid container
-            sx={{
-                marginTop: {
-                    xs: '4rem'
-                },
-                marginLeft: '2rem'
-            }}
+            sx={containerStyles}
             spacing={1}
         >
             {dashboardChips.map((item, index) => (

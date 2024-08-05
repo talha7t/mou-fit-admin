@@ -9,6 +9,16 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
+
 const PrivacyAndPolicy = () => {
   const {
     register,
@@ -91,15 +101,7 @@ const PrivacyAndPolicy = () => {
   return (
     <Grid
       container
-      sx={{
-        padding: {
-          xs: `${padding} 1em`,
-          sm: `${padding} 2em`,
-          md: `${padding} 2em`,
-          lg: `${padding} 2em`,
-          xl: `${padding} 0em`,
-        },
-      }}
+      sx={containerStyles}
       spacing={1}
     >
       <form style={{ width: "97%" }} onSubmit={handleSubmit(onSubmit)}>

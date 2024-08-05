@@ -4,13 +4,24 @@ import ChipContainer from '@/components/Widgets/SharedWidgets/Containers/ChipCon
 import TitleAndBtnRow from '@/components/Sections/SharedSections/TitleAndBtnRow';
 import FlexContainer from '@/components/Widgets/SharedWidgets/Containers/FlexContainer';
 import { useRouter } from 'next/router';
+import { Box } from '@mui/material';
+
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
 
 const BlogList = () => {
 
   const router = useRouter();
 
   return (
-    <FlexContainer grid={12} classes='content-container'>
+    <Box sx={containerStyles}>
 
       <ChipContainer  >
         <TitleAndBtnRow data={{
@@ -25,7 +36,7 @@ const BlogList = () => {
         <DataTableComp />
 
       </ChipContainer>
-    </FlexContainer>
+    </Box>
   )
 }
 

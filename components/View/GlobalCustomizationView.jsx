@@ -7,28 +7,26 @@ import HeaderCustomizationSection from "../Sections/SingleUseSections/GlobalCust
 import DynamicTitle from "../Widgets/SharedWidgets/Text/DynamicTitle";
 import FooterCustomizationSection from "../Sections/SingleUseSections/GlobalCustomizationSections/FooterCustomizationSection";
 
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
+
 const GlobalCustomizationview = ({ methodsObj, useFormPropObj, dataObj }) => {
 
   const { onSubmit, handleSubmit, setDynamicSectionsArr } = methodsObj;
   const { formName, setValue, getValues } = useFormPropObj;
 
-  let padding = "4em 2em 0 ";
-
-  // console.log(dataObj)
-  // console.log(useFormPropObj.watch())
   return (
     <>
       <Grid
         container
-        sx={{
-          padding: {
-            xs: `${padding} 1em`,
-            sm: `${padding} 2em`,
-            md: `${padding} 2em`,
-            lg: `${padding} 2em`,
-            xl: `${padding} 2em`,
-          },
-        }}
+        sx={containerStyles}
         spacing={1}
       >
         <form

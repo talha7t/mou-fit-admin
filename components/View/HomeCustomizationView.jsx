@@ -20,6 +20,16 @@ import CustomDynamicAccordion from "../Widgets/SharedWidgets/Accordion/CustomDyn
 import { homePageAvailableSections } from "../Utils/StaticData/homePageData";
 import HomeArticleSection from "../Sections/SingleUseSections/HomeCustomizationSections/HomeArticleSection";
 
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
+
 const HomeCustomizationView = ({
   dynamicSectionsArr,
   useFormPropObj,
@@ -44,15 +54,7 @@ const HomeCustomizationView = ({
   return (
     <Grid
       container
-      sx={{
-        padding: {
-          xs: `${padding} 1em`,
-          sm: `${padding} 2em`,
-          md: `${padding} 2em`,
-          lg: `${padding} 2em`,
-          xl: `${padding} 0em`,
-        },
-      }}
+      sx={containerStyles}
       spacing={1}
     >
       <form
@@ -62,7 +64,7 @@ const HomeCustomizationView = ({
         <ChipContainer
           styles={{
             padding: "1em 1.3em",
-            margin: "0 0em 1em 1em",
+            margin: "0 0 1em 1em",
           }}
         >
           {/* Title && BUTTON ROW */}

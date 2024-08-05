@@ -4,13 +4,22 @@ import FlexContainer from '@/components/Widgets/SharedWidgets/Containers/FlexCon
 import ChipContainer from '@/components/Widgets/SharedWidgets/Containers/ChipContainer';
 import TitleAndBtnRow from '@/components/Sections/SharedSections/TitleAndBtnRow';
 import DataTableComp from '@/components/Widgets/SharedWidgets/Tables/DataTableComp';
+import { Box } from '@mui/material';
 
-
+const containerStyles = {
+    padding: {
+      xs: `4em 1rem 1rem 1rem`,
+      sm: "4em 2rem 0 260px",
+      md: "4em 2rem 0 260px",
+      lg: "4em 2rem 0 260px",
+      xl: "4em 2rem 0 260px",
+    },
+}
 
 const ServicesList = () => {
     const router = useRouter();
     return (
-        <FlexContainer grid={12} classes='content-container'>
+        <Box sx={containerStyles}>
             <ChipContainer  >
                 <TitleAndBtnRow data={{
                     text: 'Services',
@@ -26,7 +35,7 @@ const ServicesList = () => {
                     tableTitle: 'Services Table'
                 }} /> */}
             </ChipContainer>
-        </FlexContainer>
+        </Box>
     )
 };
 

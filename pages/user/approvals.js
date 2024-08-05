@@ -26,7 +26,15 @@ import {
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-let padding = "4em 2em 0 ";
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
 
 const Approval = () => {
   const {
@@ -188,22 +196,14 @@ const Approval = () => {
   return (
     <Grid
       container
-      sx={{
-        padding: {
-          xs: `${padding} 0`,
-          sm: `${padding} 0`,
-          md: `${padding} 0`,
-          lg: `${padding} 0`,
-          xl: `${padding} 0`
-        },
-      }}
-      spacing={1}
+      sx={containerStyles}
+      // spacing={1}
     >
-      <Grid item xs={12} style={{paddingRight: '2em'}}>
+      <Grid item xs={12}>
         <ChipContainer
           styles={{
             padding: "1em 1.3em",
-            margin: "0 1.5em 1em 2em",
+            margin: "0 0 1em 0",
           }}
         >
           <Grid item xs={12}>

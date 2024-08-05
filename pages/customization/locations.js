@@ -14,6 +14,15 @@ import HomeChooseUsSection from '@/components/Sections/SingleUseSections/HomeCus
 import DynamicTitle from '@/components/Widgets/SharedWidgets/Text/DynamicTitle';
 import { updateDynmaicSectionsInOldFirebase } from '@/components/Helpers/ApiCalls/firebaseApiCalls';
 
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
 
 const Locations = () => {
 
@@ -36,8 +45,6 @@ const Locations = () => {
     setValue,
     watch,
   };
-
-  let padding = '4em 2em 0 ';
 
   const onSubmit = async (data) => {
     // console.log(data);
@@ -70,15 +77,7 @@ const Locations = () => {
 
   return (
     <Grid container
-      sx={{
-        padding: {
-          xs: `${padding} 1em`,
-          sm: `${padding} 2em`,
-          md: `${padding} 2em`,
-          lg: `${padding} 2em`,
-          xl: `${padding} 2em`
-        },
-      }}
+      sx={containerStyles}
       spacing={1}
     >
       <form style={{ width: '97%' }} onSubmit={handleSubmit(onSubmit)}>

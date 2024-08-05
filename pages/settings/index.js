@@ -5,6 +5,16 @@ import ChipContainer from '@/components/Widgets/SharedWidgets/Containers/ChipCon
 import { Grid } from '@mui/material';
 import DynamicTitle from '@/components/Widgets/SharedWidgets/Text/DynamicTitle';
 
+const containerStyles = {
+  padding: {
+    xs: `4em 0 1rem 0`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
+
 const Settings = () => {
 
   const cardData = [
@@ -16,20 +26,10 @@ const Settings = () => {
     { title: 'Email & Configuration', description: 'Define tags for services search and subscribers loyalty tags', icon: <FiMail />, to: '/settings/email-config' },
   ];
 
-  let padding = '4em 0 0 ';
-
   return (
     <>
       <Grid container
-        sx={{
-          padding: {
-            xs: `${padding} 0`,
-            sm: `${padding} 0`,
-            md: `${padding} 0`,
-            lg: `${padding} 0`,
-            xl: `${padding} 0`
-          },
-        }}
+        sx={containerStyles}
         spacing={1}
       >
 

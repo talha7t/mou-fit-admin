@@ -30,6 +30,16 @@ import {
 } from "@/components/Helpers/ApiCalls/firebaseApiCalls";
 import { oldDB } from "@/components/firebase-config";
 
+const containerStyles = {
+  padding: {
+    xs: `4em 1rem 1rem 1rem`,
+    sm: "4em 2rem 0 260px",
+    md: "4em 2rem 0 260px",
+    lg: "4em 2rem 0 260px",
+    xl: "4em 2rem 0 260px",
+  },
+}
+
 const Subscriptions = () => {
   const [dynamicSectionsArr, setDynamicSectionsArr] = useState([]);
 
@@ -213,15 +223,7 @@ const Subscriptions = () => {
     <>
       <Grid
         container
-        sx={{
-          padding: {
-            xs: `${padding} 1em`,
-            sm: `${padding} 2em`,
-            md: `${padding} 2em`,
-            lg: `${padding} 2em`,
-            xl: `${padding} 0em`,
-          },
-        }}
+        sx={containerStyles}
         spacing={1}
       >
         <form style={{ width: "97%" }} onSubmit={handleSubmit(onSubmit)}>
