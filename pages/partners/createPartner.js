@@ -1,8 +1,9 @@
 import React from 'react';
+import PartnerForm from './partnerForm';
 
 const CreatePartner = () => {
   return (
-    <div>CreatePartner</div>
+    <PartnerForm />
   )
 };
 
